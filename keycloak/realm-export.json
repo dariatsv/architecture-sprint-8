@@ -107,21 +107,6 @@
         }
       ],
       "realmRoles": ["prothetic_user"]
-    },
-    {
-      "username": "report",
-      "enabled": true,
-      "email": "report@example.com",
-      "firstName": "Prothetic",
-      "lastName": "Three",
-      "credentials": [
-        {
-          "type": "password",
-          "value": "report",
-          "temporary": false
-        }
-      ],
-      "realmRoles": ["prothetic_user"]
     }
   ],
   "clients": [
