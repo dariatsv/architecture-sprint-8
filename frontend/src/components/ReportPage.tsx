@@ -67,6 +67,13 @@ const ReportPage: React.FC = () => {
             {error}
           </div>
         )}
+
+        <br/>
+        <button
+            onClick={() => keycloak.logout()}
+            className={`px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600`}
+            style={{marginTop: 16}}
+        >Logout</button>
       </div>
     </div>
   );

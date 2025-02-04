@@ -12,6 +12,7 @@ services:
     ports:
       - "5433:5432"
   keycloak:
+    container_name: keycloak
     image: quay.io/keycloak/keycloak:21.1
     environment:
       KEYCLOAK_ADMIN: admin
@@ -20,7 +21,9 @@ services:
       KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak_db
       KC_DB_USERNAME: keycloak_user
       KC_DB_PASSWORD: keycloak_password
-    command: 
+      KC_HOSTNAME: keycloak
+      KC_HOSTNAME_ADMIN: localhost
+    command:
       - start-dev
       - --import-realm
     volumes:
@@ -37,6 +40,18 @@ services:
       - "3000:3000"
     environment:
       REACT_APP_API_URL: http://localhost:8000
-      REACT_APP_KEYCLOAK_URL: http://localhost:8080
+      REACT_APP_KEYCLOAK_URL: http://keycloak:8080
       REACT_APP_KEYCLOAK_REALM: reports-realm
-      REACT_APP_KEYCLOAK_CLIENT_ID: reports-frontend
+      REACT_APP_KEYCLOAK_CLIENT_ID: report-api-backend
+  api:
+    container_name: api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    image: api:tag
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI: http://keycloak:8080/realms/reports-realm
+    depends_on:
+      - keycloak
